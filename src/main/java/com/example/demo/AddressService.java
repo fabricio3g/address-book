@@ -12,20 +12,31 @@ import org.springframework.stereotype.Service;
 public class AddressService {
     
     private Map<String, Address> addresses = new HashMap<>();
-    public Address save(Address address){
-        if(address.getId() == null){
-            String id = UUID.randomUUID().toString();
-            address.setId(id);
-        }
-       
+    public Address create(Address address){
+
+        String id = UUID.randomUUID().toString();
+        address.setId(id);
         addresses.put(address.getId(), address);
+
         return address;
     }
+
+    public Address update(Address address){
+        String id = address.getId();
+        addresses.put(id, address);
+        return address;
+    }
+
     public List<Address> getAll() {
 
         System.out.println(addresses.values());
         return new ArrayList<Address>(addresses.values());
 
+    }
+    
+
+    public List<Address> delete(){
+        return null;
     }
 
 }
