@@ -1,48 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Address book  </title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Address book</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
     <div class="container">
-        <form id="form" class="row g-3" method="POST" action="/addresses">
-            <h1>Address book</h1>
-            <div class="col-md-6">
-              <label for="inputEmail4" class="form-label">Email</label>
-              <input type="email" class="form-control" id="email" name="email">
-            </div>
-            <div class="col-md-6">
-              <label for="inputPassword4" class="form-label">Phone</label>
-              <input type="phone" class="form-control" id="inputPhone" name="phone">
-            </div>
-            <div class="col-12">
-              <label for="inputAddress" class="form-label">Address</label>
-              <input type="text" class="form-control" id="inputAddress" name="address-1" placeholder="1234 Main St">
-            </div>
-            <div class="col-12">
-              <label for="inputAddress2" class="form-label">Address 2</label>
-              <input type="text" class="form-control" id="inputAddress2" name="address-2" placeholder="Apartment, studio, or floor">
-            </div>
-            <div class="col-md-6">
-              <label for="inputCity" class="form-label">City</label>
-              <input type="text" class="form-control" id="inputCity" name="city">
-            </div>
-            <div class="col-md-4">
-              <label for="inputState" class="form-label">State</label>
-              <input type="text" class="form-control" id="inputState" name="state">
-            </div>
-            <div class="col-md-2">
-              <label for="inputZip" class="form-label">Zip</label>
-              <input type="text" class="form-control" id="inputZip" name="zip">
-            </div>
-            <div class="col-12">
-              <button type="submit" class="btn btn-primary">Save</button>
-            </div>
+      <form id="form" class="row g-3" method="POST" action="/addresses">
+        <h1>Address book</h1>
+        <div class="col-md-6">
+          <input type="hidden" id="id" />
+          <label for="inputEmail4" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" name="email" />
+        </div>
+        <div class="col-md-6">
+          <label for="inputPassword4" class="form-label">Phone</label>
+          <input
+            type="phone"
+            class="form-control"
+            id="inputPhone"
+            name="phone"
+          />
+        </div>
+        <div class="col-12">
+          <label for="inputAddress" class="form-label">Address</label>
+          <input
+            type="text"
+            class="form-control"
+            id="inputAddress"
+            name="address-1"
+            placeholder="1234 Main St"
+          />
+        </div>
+        <div class="col-12">
+          <label for="inputAddress2" class="form-label">Address 2</label>
+          <input
+            type="text"
+            class="form-control"
+            id="inputAddress2"
+            name="address-2"
+            placeholder="Apartment, studio, or floor"
+          />
+        </div>
+        <div class="col-md-6">
+          <label for="inputCity" class="form-label">City</label>
+          <input type="text" class="form-control" id="inputCity" name="city" />
+        </div>
+        <div class="col-md-4">
+          <label for="inputState" class="form-label">State</label>
+          <input
+            type="text"
+            class="form-control"
+            id="inputState"
+            name="state"
+          />
+        </div>
+        <div class="col-md-2">
+          <label for="inputZip" class="form-label">Zip</label>
+          <input type="text" class="form-control" id="inputZip" name="zip" />
+        </div>
+        <div class="col-12">
+          <button type="submit" id="save" class="btn btn-primary">Save</button>
+          <button id="delete" class="btn btn-danger">Remove</button>
+        </div>
       </form>
 
       <table class="table">
@@ -53,86 +86,131 @@
             <th scope="col">Addres</th>
           </tr>
         </thead>
-        <tbody id="address-body">
-        </tbody>
+        <tbody id="address-body"></tbody>
       </table>
     </div>
 
-
     <script>
+      const saveBtn = document.getElementById('save');
+      const deleteBtn = document.getElementById("delete")
 
-        const form = document.getElementById('form')
-
-        
-
-
-        const save = e  => {
+      const saveForm = (e) => {
 
         
-        
-
-        var url = '/addresses';
+        var url = "/addresses";
         var data = {
-            email: document.getElementById('email').value,
-            phone: document.getElementById('inputPhone').value,
-            address_1: document.getElementById('inputAddress').value,
-            address_2: document.getElementById('inputAddress2').value,
-            city: document.getElementById('inputCity').value,
-            state: document.getElementById('inputState').value,
-            zip: document.getElementById('inputZip').value
+          id: document.getElementById("id").value,
+          email: document.getElementById("email").value,
+          phone: document.getElementById("inputPhone").value,
+          address_1: document.getElementById("inputAddress").value,
+          address_2: document.getElementById("inputAddress2").value,
+          city: document.getElementById("inputCity").value,
+          state: document.getElementById("inputState").value,
+          zip: document.getElementById("inputZip").value,
         };
+
+        const method = data.id ? "PUT" : "POST";
+        let { id, email, phone, address_1, address_2, city, state, zip} = data
         fetch(url, {
-          method: 'POST', // or 'PUT'
+          method: method, // or 'PUT'
           body: JSON.stringify(data), // data can be `string` or {object}!
-          headers:{
-            'Content-Type': 'application/json'
-          }
-        }).then(res => res.json())
-        .catch(error => console.error('Error:', error))
-        .then(response => console.log('Success:', response));
-        fetchAddress()
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => res.json())
+          .catch((error) => console.error("Error:", error))
+          .then((response) => {
+            if(id){
+                id = ""
+                email = ""
+                phone = ""
+                address_1 = ""
+                address_2 = ""
+                city = ""
+                state = ""
+                zip = ""
+                console.log(data)
+                fetchAddress();
+              }
+        
+            
+            console.log("Success:", response);
+          });
+
+       
+        e.preventDefault();
+      };
+
+     
+      const deleteForm = e =>{
+
+        
         e.preventDefault()
-    } 
-    
-    form.addEventListener('submit', save)
+      }
 
 
-    const fetchAddress =()=>{
-      fetch('/addresses')
-      .then(res => res.json())
-      .then(data => {
+      save.addEventListener("click", saveForm);
+      deleteBtn.addEventListener('click', deleteForm)
+  
 
-        let dataTable = ""
-        for(let i = 0; i < data.length; i++){
-          let { email, address_1, phone} = data[i]
+      let addresses = {};
 
-         const template = ` 
+      const fetchAddress = () => {
+        addresses = fetch("/addresses")
+          .then((res) => res.json())
+          .then((data) => {
+            let dataTable = "";
+            for (let i = 0; i < data.length; i++) {
+              let { email, address_1, phone, id } = data[i];
+              let address = data[i];
+
+              const template = ` 
           <tr>
-            <td>${email}</td>
+            <td><a href="#${id}">${email}</a></td>
             <td>${phone}</td>
             <td>${address_1}</td>
           </tr>
-          `
-          dataTable += template
-        }
-        
-        document.getElementById("address-body").innerHTML = dataTable
-      })
-      
-    }
-    
+          `;
+              addresses[id] = address;
+              dataTable += template;
+            }
 
-    window.onload = fetchAddress
+            document.getElementById("address-body").innerHTML = dataTable;
+          });
+      };
+
+
+      const hashChanged = (e) => {
+        let hash = window.location.hash;
+        const id = hash.substring(1);
+
+        const { email, address_1, address_2, phone, state, zip, city } =
+          addresses[id];
+        console.log(addresses[id]);
+        document.getElementById("id").value = id;
+        document.getElementById("email").value = email;
+        document.getElementById("inputPhone").value = phone;
+        document.getElementById("inputAddress").value = address_1;
+        document.getElementById("inputAddress2").value = address_2;
+        document.getElementById("inputCity").value = city;
+        document.getElementById("inputState").value = state;
+        document.getElementById("inputZip").value = city;
+      };
+
+      window.addEventListener("hashchange", hashChanged);
+
+      window.onload = fetchAddress;
     </script>
 
     <style>
-        .container{
-          margin-top: 2rem !important;
-        }
+      .container {
+        margin-top: 2rem !important;
+      }
 
-        .table{
-          margin-top: 2rem !important;
-        }
+      .table {
+        margin-top: 2rem !important;
+      }
     </style>
-</body>
+  </body>
 </html>
